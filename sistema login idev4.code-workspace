@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../front_login_idev4"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "front_login_idev4"
+	}
+}

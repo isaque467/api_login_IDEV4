@@ -1,0 +1,19 @@
+{
+  "name": "api-login",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "",
+    "start": "node server.js"
+  },
+  "author": "Guilherme Devito",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.3.1",
+    "env": "^0.0.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.20.0"
+  }
+}
