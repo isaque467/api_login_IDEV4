@@ -3,13 +3,21 @@ const routes = express.Router();
 const db = require('../db');
 
 //CRUD - Create, Read, Update, Delete
-//Get all corredores
+//Get all corredores - mapeia campos para compatibilidade com frontend
 routes.get('/', (req, res) => {
   db.query('SELECT * FROM corredores', (err, results) => {
     if (err) {
       res.status(500).json({ error: 'Erro ao buscar corredores' });
     } else {
-      res.json(results);
+      // Mapeia campos do banco para o formato esperado pelo frontend
+      const mapped = results.map(c => ({
+        id: c.id,
+        numero: c.numero || c.id, // usa numero se existir, senão usa id
+        nome: c.nome,
+        equipe: c.turma || c.equipe || 'Sem turma', // mapeia turma -> equipe
+        created_at: c.created_at || c.data_criacao || new Date().toISOString()
+      }));
+      res.json(mapped);
     }
   });
 });
@@ -63,7 +71,13 @@ routes.get('/:id', (req, res) => {
       if (results.length === 0) {
         res.status(404).json({ error: 'Corredor não encontrado' });
       } else {
-        res.status(200).json(results[0]);
+        const c = results[0];
+        res.status(200).json({
+          id: c.id,
+          numero: c.numero || c.id,
+          nome: c.nome,
+          equipe: c.turma || c.equipe || 'Sem turma'
+        });
       }
     }
   });
@@ -139,8 +153,6 @@ routes.get('/ranking/melhores-tempos', (req, res) => {
   });
 });
 
-module.exports = routes;
-
 // Endpoint para buscar as últimas voltas de todos os corredores
 routes.get('/voltas/recentes', (req, res) => {
   // Retorna as 10 voltas mais recentes, com nome do corredor
@@ -159,3 +171,6 @@ routes.get('/voltas/recentes', (req, res) => {
     }
   });
 });
+
+module.exports = routes;
+
