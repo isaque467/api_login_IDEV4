@@ -13,13 +13,16 @@ app.use((req, res, next) => {
 // CORS para permitir requisições do frontend
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
 
+
 // Servir frontend como arquivos estáticos
 app.use('/pages', express.static(path.join(__dirname, '../frontend/pages')));
+app.use('/styles', express.static(path.join(__dirname, '../frontend/styles')));
 app.use('/js', express.static(path.join(__dirname, '../frontend/js')));
 
 //Rotas
