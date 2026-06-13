@@ -21,9 +21,7 @@ app.use((req, res, next) => {
 
 
 // Servir frontend como arquivos estáticos
-app.use('/pages', express.static(path.join(__dirname, '../frontend/pages')));
-app.use('/styles', express.static(path.join(__dirname, '../frontend/styles')));
-app.use('/js', express.static(path.join(__dirname, '../frontend/js')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 //Rotas
 const userRoutes = require('./routes/users');
@@ -41,7 +39,7 @@ app.use('/', frontendRoutes);
 
 // Redirecionar raiz para o login
 app.get('/', (req, res) => {
-  res.redirect('/pages/login.html');
+  res.redirect('/login.html');
 });
 
 module.exports = app;
